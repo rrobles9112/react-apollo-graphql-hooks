@@ -1,3 +1,3 @@
 import React from "react";
-export const PetsContext = React.createContext({});
-export const PetsProvider = PetsContext.Provider;
+export const ClientsContext = React.createContext({});
+export const ClientsProvider = ClientsContext.Provider;

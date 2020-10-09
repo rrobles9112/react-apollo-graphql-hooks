@@ -1,0 +1,16 @@
+{
+  "name": "Untitled GraphQL Schema",
+  "schemaPath": "schema.graphql",
+  "extensions": {
+    "endpoints": {
+      "Default GraphQL Endpoint": {
+        "url": "https://elenas-athenea-real-staging.herokuapp.com/gql/",
+        "headers": {
+          "user-agent": "JS GraphQL",
+          "Authorization": "Token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiKzU3MzA1NzE5OTk5NSIsImlhdCI6MTYwMjIxMjkxMH0.GoGpiTV1yIpJlTMvsimdQR1eRmU5WlSStNj9_llmG9k"
+        },
+        "introspect": false
+      }
+    }
+  }
+}

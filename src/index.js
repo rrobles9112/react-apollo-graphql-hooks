@@ -12,14 +12,15 @@ import { BrowserRouter as Router } from "react-router-dom";
 import App from "./App";
 import "./index.css";
 import * as serviceWorker from "./serviceWorker";
+import { Provider } from "./store";
 
-const httpLink = new HttpLink({ uri: "http://pet-library.moonhighway.com" });
+const httpLink = new HttpLink({ uri: "https://elenas-athenea-real-staging.herokuapp.com/gql/" });
 
 const authMiddleware = new ApolloLink((operation, forward) => {
   // add the authorization to the headers
   operation.setContext({
     headers: {
-      authorization: localStorage.getItem("token") || null,
+      authorization: `Token ${localStorage.getItem("token")}` || null,
     },
   });
 
@@ -44,7 +45,9 @@ client.disableNetworkFetches = false;
 ReactDOM.render(
   <Router>
     <ApolloProvider client={client}>
-      <App />
+      <Provider>
+        <App />
+      </Provider>
     </ApolloProvider>
   </Router>,
   document.getElementById("root")

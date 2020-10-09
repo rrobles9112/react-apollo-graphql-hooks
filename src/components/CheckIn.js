@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import useCheckInMutation from "../hooks/useCheckInMutation";
 import { isLoggedIn } from "../services/service";
-import { PetsContext } from "./../providers/refetchProvider";
+import { ClientsContext } from "./../providers/refetchProvider";
 
 export const CheckIn = ({ petId }) => {
-  const refetch = useContext(PetsContext);
+  const refetch = useContext(ClientsContext);
 
   const doCheckIn = useCheckInMutation();
   const checkIn = () => {

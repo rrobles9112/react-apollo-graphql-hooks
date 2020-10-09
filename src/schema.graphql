@@ -1,0 +1,834 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+interface Pagination {
+    currentPage: Int!
+    resultsPerPage: Int!
+    totalPages: Int!
+}
+
+union AddSellerAccountingDataResult = User | ValidationErrors
+
+union AddressResult = AddressList | ValidationErrors
+
+union AlertResult = ProductAlert | ValidationErrors
+
+union AuthResult = AuthInfo | ValidationErrors
+
+union BrandResult = Brand | ValidationErrors
+
+union ClientResult = Client | ValidationErrors
+
+union MutationResult = Success | ValidationErrors
+
+union OrderResult = Order | ValidationErrors
+
+union OrderResultV2 = CreateOrderError | Order
+
+union ProductResult = Product | ValidationErrors
+
+union ProductReviewResult = ProductReview | ValidationErrors
+
+union StateResult = State | ValidationErrors
+
+union UpdateBankInfoResult = User | ValidationErrors
+
+union VendorAuthResult = ValidationErrors | VendorAuthInfo
+
+union VendorResult = ValidationErrors | Vendor
+
+type Address {
+    city: String!
+    country: String!
+    state: String!
+    streetAddress: String!
+}
+
+type AddressList {
+    addresses: [Address!]!
+    count: Int!
+}
+
+type Article {
+    content: String!
+    expirationTime: DateTime!
+    id: Int!
+    image: Image!
+    preview: String
+    publicationTime: DateTime!
+    title: String!
+}
+
+type AuthInfo {
+    token: String!
+    user: User!
+}
+
+type Brand {
+    defaultProductCommission: Float
+    description: String
+    id: Int!
+    name: String!
+    parentBrand: Brand
+    products: [Product!]!
+    vendor: Vendor!
+    website: String
+}
+
+type CartItem {
+    basePrice: Int!
+    clientPrice: Int!
+    earning: Int!
+    id: Int!
+    product: Product!
+    quantity: Int!
+    shippingCost: Int!
+    subTotal: Int!
+}
+
+type Category {
+    id: Int!
+    image: String
+    name: String!
+    parentId: Int
+    products: [Product]!
+}
+
+type City {
+    codAvailable: Boolean
+    displayName: String!
+    id: Int!
+    name: String!
+    shortCode: String!
+    state: State!
+}
+
+type Client {
+    address: String
+    cedula: String
+    cellphone: String
+    city: String
+    email: String @deprecated(reason : "No longer supported")
+    firstName: String
+    id: Int!
+    lastName: String
+    registerDate: DateTime
+    state: State
+}
+
+type ClientPagination implements Pagination {
+    currentPage: Int!
+    results: [Client!]!
+    resultsPerPage: Int!
+    totalPages: Int!
+}
+
+type Collection {
+    description: String
+    id: Int!
+    name: String!
+    pdfUrl: String
+    productsSorted: [Product!]!
+    publicationTime: DateTime!
+}
+
+type CollectionPagination {
+    currentPage: Int!
+    results: [Collection]!
+    resultsPerPage: Int!
+    totalPages: Int!
+}
+
+type CommunicationAlert {
+    category: CommunicationCategory!
+    createdAt: Date!
+    description: String!
+    id: Int!
+    seen: Boolean!
+    title: String!
+}
+
+type CommunicationAlertPagination {
+    currentPage: Int!
+    results: [CommunicationAlert!]!
+    resultsPerPage: Int!
+    totalPages: Int!
+    totalResults: Int
+}
+
+type CreateOrderError {
+    errorType: CreateOrderErrorType!
+    errors: [ValidationError]
+    message: String
+}
+
+type Discount {
+    basePriceWithoutDiscount: Int!
+    discountPercent: Int!
+}
+
+type Image {
+    base64: String
+    url: String
+}
+
+type Incentive {
+    description: String!
+    expirationTime: DateTime!
+    id: Int!
+    image: Image!
+    publicationTime: DateTime!
+    subtitle: String
+    title: String!
+}
+
+type Mutation {
+    _empty: String
+    addSellerAccountingData(input: AccountingInput!): AddSellerAccountingDataResult!
+    createClient(input: ClientInput!): ClientResult!
+    "Create an order in the backend"
+    createOrderV2(cartItems: [CartItemInput!]!, clientId: Int!, comments: String, total: CartItemInput!): OrderResultV2!
+    "Create a new product review"
+    createProductReview(input: ProductReviewInput!): ProductReviewResult!
+    "To set that an order has been already seen by the user (Was notified)"
+    dismissOrderNotify(orderId: Int!): Boolean!
+    "Authenticates an user based on phone and password"
+    login(cellphone: String!, password: String!, pushToken: String): AuthResult!
+    "To give 'like' to a review"
+    markUseful(reviewId: Int!): ProductReviewResult!
+    "Save a seller's monthly goal"
+    onboardingGoal(input: OnboardingGoalInput!): MutationResult!
+    "Save a seller's motivation for using the app"
+    onboardingMotivation(input: OnboardingMotivationInput!): MutationResult!
+    "Save a seller's personal information such as birthday and occupation"
+    onboardingPersonal(input: OnboardingPersonalInput!): MutationResult!
+    "To give 'dislike' to a review"
+    removeMarkUseful(reviewId: Int!): ProductReviewResult!
+    "Resets a user's password"
+    resetPassword(cellphone: String!, code: String!, newPassword: String!): PasswordResetResult!
+    "Sends a password reset code to the given cellphone number."
+    sendPasswordResetCode(cellphone: String!): Boolean!
+    "Register an user in the platform"
+    signUp(input: SignUpInput!): AuthResult!
+    "Save a seller's bank account"
+    updateBankInfo(bankAccount: String!, bankAccountId: String): UpdateBankInfoResult!
+    updateClient(id: Int!, input: ClientInput!): ClientResult!
+    updateOrderStatus(id: Int!, reason: String!, status: String!): OrderResult
+}
+
+type Order {
+    cartItems: [CartItem]
+    client: Client
+    clientPrice: Int!
+    comments: String
+    createDate: DateTime!
+    currentStatus: OrderStatus!
+    earnings: Int!
+    embajadoraPayment: Payment
+    firstOrder: Boolean!
+    guia: String
+    id: Int!
+    number: Int
+    paid: Boolean @deprecated(reason : "No longer supported")
+    paymentStatus: PaymentStatus!
+    productReviews: [ProductReview]!
+    seller: Seller!
+    sellerPaid: Boolean!
+    shipping: Int!
+    status: [OrderStatus]!
+    tax: Int!
+    total: Int!
+    trackingNumber: String
+    vendor: Vendor
+}
+
+type OrderAlert {
+    alertType: String!
+    createdAt: DateTime!
+    order: Order!
+}
+
+type OrderDetails {
+    address: String
+    basePrice: String
+    city: String!
+    comments: String
+    date: DateTime!
+    earnings: String
+    email: String
+    guia: String
+    id: Int!
+    identification: String!
+    phone: String
+    productName: String!
+    quantity: Int!
+    seller: String!
+    sku: String
+    status: String
+}
+
+type OrderPagination {
+    currentPage: Int!
+    results: [Order!]!
+    resultsPerPage: Int!
+    totalPages: Int!
+    totalResults: Int
+}
+
+type OrderStatus {
+    date: DateTime
+    id: Int!
+    reason: String
+    status: String!
+}
+
+type PaidOrdersPagination {
+    currentPage: Int!
+    results: [VendorPaidOrders!]!
+    resultsPerPage: Int!
+    totalPages: Int!
+    totalResults: Int
+}
+
+type PasswordResetResult {
+    authInfo: AuthInfo
+    error: PasswordResetError
+    success: Boolean!
+}
+
+type Payment {
+    date: DateTime!
+    endDateCut: DateTime
+    id: Int!
+    orders: [Order]!
+    paymentReason: PaymentReason!
+    startDateCut: DateTime
+    total: Int!
+    updatedAt: DateTime! @deprecated(reason : "No longer supported")
+}
+
+type PaymentData {
+    data: OrderPagination!
+    total: Float!
+}
+
+type PaymentPagination {
+    currentPage: Int!
+    results: [VendorPaymentData!]!
+    resultsPerPage: Int!
+    totalPages: Int!
+    totalResults: Int!
+}
+
+type PaymentStats {
+    completedClientPricesAvg: Int!
+    completedClientPricesTotal: Int!
+    completedEarningsTotal: Int!
+    completedOrders: [Order]!
+    notPaidEarningsForCompletedOrders: Int!
+    notPaidEarningsForCompletedOrdersOrders: [Order]!
+    notPaidEarningsForOrdersInProgress: Int!
+    notPaidEarningsForOrdersInProgressOrders: [Order]!
+    numberOfCompletedOrders: Int!
+    referralsDetailList: [ReferralPaymentDetail]
+    referralsEarningsTotal: Int
+}
+
+type Product {
+    availableQuantity: Int
+    basePrice: Int!
+    brand: Brand
+    category: Category
+    description: String
+    dimensions: String
+    discount: Discount
+    guarantee: String
+    id: Int!
+    image: ProductImage
+    images: [ProductImage]
+    name: String!
+    reviewSummary: ProductReviewSummary
+    sku: String
+    techReport: String
+    vendor: Vendor
+    visible: Boolean
+    weight: Int
+}
+
+type ProductAlert {
+    alertType: String!
+    createdAt: DateTime!
+    id: Int!
+    message: String
+    product: Product!
+}
+
+type ProductImage {
+    id: Int!
+    sortOrder: Int
+    url: String
+}
+
+type ProductPagination {
+    currentPage: Int!
+    results: [Product!]!
+    resultsPerPage: Int!
+    totalPages: Int!
+    totalResults: Int
+}
+
+type ProductReview {
+    id: Int!
+    images: [ProductImage]
+    liked: Boolean!
+    product: Product!
+    rating: Int!
+    reviewer: Profile!
+    text: String
+    usefulCount: Int!
+}
+
+type ProductReviewPagination {
+    currentPage: Int!
+    results: [ProductReview]!
+    resultsPerPage: Int!
+    totalPages: Int!
+}
+
+type ProductReviewSummary {
+    avg: Float!
+    count: [Int!]!
+}
+
+type Profile {
+    firstName: String!
+    lastName: String!
+}
+
+type Query {
+    _empty: String
+    "List all categories in the system"
+    categories: [Category]!
+    "Finds a Category based on id"
+    category(id: Int!): Category
+    clients: [Client]! @deprecated(reason : "use clientsSearch")
+    clientsSearch(ids: [Int!], page: Int, perPage: Int, term: String): ClientPagination!
+    "Finds a Collection based on id"
+    collection(id: Int!): Collection
+    "All collections sorted by how they should be displayed"
+    collectionsSorted(page: Int, perPage: Int): CollectionPagination!
+    "List active incentives in the system"
+    incentives: [Incentive]!
+    "List active news in the system"
+    news: [Article]!
+    "Finds an Order based on id"
+    order(id: Int!): Order
+    "List all orders for the logged in user"
+    orders(orderStatus: String, page: Int, paymentStatus: PaymentStatus, perPage: Int, startDate: DateTime): OrderPagination!
+    "List all orders without qualification that are also pending to be notified to the user"
+    ordersCompletedToNotify: [Order]
+    "List all orders for the logged in vendor"
+    ordersForVendor(page: Int, perPage: Int): OrderPagination!
+    paymentStats: PaymentStats!
+    payments: [Payment]!
+    "Finds a Product based on id"
+    product(id: Int!): Product
+    "List all reviews for a product"
+    productReviews(page: Int, perPage: Int, productId: Int!): ProductReviewPagination
+    "List products by name, categories, brands  and/or vendors"
+    products(brands: [Int!], categories: [Int!], name: String, page: Int, perPage: Int, vendors: [Int!]): ProductPagination!
+    "List products by category id"
+    productsByTrending(categoryId: Int, page: Int, perPage: Int, trendingType: TrendingType!): ProductPagination!
+    "Get the authenticated user info"
+    profile: User
+    "Search for an address. Returns a list of possible matches"
+    searchForAddress(city: String!, country: String, query: String!, state: String!): AddressResult!
+    "Return a list of all shipping zones"
+    shippingZones: [ShippingZone!]!
+    "Search for a state using a short code"
+    state(shortCode: String!): StateResult!
+    "Return a list of all states"
+    states: [State!]!
+    training: [TrainingCategory]!
+    vendors: [Vendor]!
+    "List active winners in the system"
+    winners: [Winner]!
+}
+
+type ReferralPaymentDetail {
+    remainingDaysInProgram: Int!
+    status: ReferredStatus!
+    total: Int!
+    user: User!
+}
+
+type Seller {
+    code: String
+    user: User!
+}
+
+type ShippingZone {
+    cost: Int!
+    name: String!
+    states: [State!]!
+}
+
+type State {
+    cities: [City!]!
+    displayName: String!
+    id: Int!
+    name: String!
+    shippingZone: ShippingZone!
+    shortCode: String!
+}
+
+type Success {
+    success: Boolean!
+}
+
+type TopClient {
+    client: Client!
+    total: Int!
+}
+
+type TrainingCategory {
+    id: Int!
+    name: String!
+    videos: [TrainingVideo]!
+}
+
+type TrainingVideo {
+    category: TrainingCategory
+    content: String
+    id: Int!
+    name: String!
+    preview: String
+    videoUrl: String
+    youtubeId: String
+}
+
+type User {
+    address: Address
+    bankAccount: String
+    bankAccountId: String
+    cedula: String
+    cellphone: String!
+    email: String!
+    firstName: String!
+    id: Int!
+    lastName: String!
+    pioneer: Boolean!
+    registerDate: DateTime!
+    sellerCode: String!
+    totalEarnings: Int @deprecated(reason : "No longer supported")
+    totalSales: Int @deprecated(reason : "No longer supported")
+}
+
+type ValidationError {
+    field: String!
+    message: String!
+}
+
+type ValidationErrors {
+    errors: [ValidationError]!
+    message: String
+}
+
+type Vendor {
+    accountingsMail: String
+    brands: [Brand!]!
+    businessName: String
+    commercialsMail: String
+    documentId: String
+    fiscalCity: String
+    id: Int!
+    mainBrand: Brand!
+    name: String! @deprecated(reason : "Use businessName instead")
+    personType: String
+    productAlertsEnable: Boolean
+    products: [Product]! @deprecated(reason : "Use brands.products instead")
+    profileImg: String
+    rawBankCertificate: String
+    rawChamberOfCommerce: String
+    rawDocumentId: String
+    rawRut: String
+    regimeSetted: Boolean!
+    retentionAgent: Boolean
+    taxRegime: String
+    taxable: Boolean
+    user: User!
+    warehouseAddress: String
+    warehouseCity: City
+    warehouseState: State
+    website: String
+}
+
+type VendorAuthInfo {
+    token: String!
+    vendor: Vendor!
+}
+
+type VendorPaidOrders {
+    date: Date!
+    id: Int!
+    invoiceNumber: Int!
+    paymentDate: Date!
+    product: String!
+    totalPaid: Float!
+}
+
+type VendorPaymentData {
+    accountingCutDate: Date!
+    id: Int!
+    invoiceNumber: Int!
+    paymentDate: Date!
+    period: String!
+    totalPaid: Float!
+}
+
+type Winner {
+    content: String!
+    id: Int!
+    image: Image!
+    title: String!
+}
+
+enum BrandDocumentType {
+    BANNER
+    PROFILE_IMG
+    RAW_BANK_CERTIFICATE
+    RAW_DOCUMENT_ID
+    RAW_RUT
+}
+
+enum CommunicationCategory {
+    GENERAL
+    ORDERS
+    PAYMENTS
+    PRODUCTS
+    PROFILE
+}
+
+enum CreateOrderErrorType {
+    INCORRECT_ADDRESS
+    NO_PAY_ON_DELIVERY
+    ORDER_GREATER_THAN_600K
+    OTHER
+}
+
+enum Experience {
+    NO_NEVER_SOLD
+    YES_NOT_SELLING
+    YES_STILL_SELLING
+}
+
+enum Motivation {
+    FROM_HOME
+    HOBBY
+    LEARN_SALES
+    SECOND_INCOME
+    STUDY_COST
+}
+
+enum Occupation {
+    HOUSE_WIFE
+    OFFICE_WORKER
+    OTHER
+    SELLER
+    STUDENT
+}
+
+enum OrderByInventory {
+    ASC
+    DESC
+}
+
+enum PasswordResetError {
+    CODE_INVALID
+    CODE_TIME_OUT
+    PASSWORD_TOO_SHORT
+    UNKNOWN_PHONE_NUMBER
+}
+
+enum PaymentReason {
+    BONUS
+    NONE
+    ORDERS
+}
+
+enum PaymentStatus {
+    NOT_PAID
+    PAID
+    PARTIALLY_PAID
+    PENDING
+}
+
+enum PersonType {
+    LEGAL
+    NATURAL
+}
+
+enum ReferredStatus {
+    ACTIVE
+    PENDING
+}
+
+enum TaxRegime {
+    GREAT_CONTRIBUTOR
+    NO_RESPONSIBLE
+    RESPONSIBLE
+}
+
+enum TrendingType {
+    BEST_SELLERS
+    NEWS
+    TRENDING
+}
+
+enum VendorDocumentType {
+    PROFILE_IMG
+    RAW_BANK_CERTIFICATE
+    RAW_CHAMBER_OF_COMMERCE
+    RAW_DOCUMENT_ID
+    RAW_RUT
+}
+
+input AccountingInput {
+    address: AddressInput!
+    cedula: String!
+}
+
+input AddressInput {
+    city: String!
+    country: String
+    stateShortCode: String!
+    streetAddress: String!
+}
+
+input BrandDocumentInput {
+    documentBase64: String!
+    documentType: BrandDocumentType!
+}
+
+input BrandInput {
+    brandName: String!
+    defaultProductCommission: Float
+    description: String!
+    website: String
+}
+
+input CartItemInput {
+    basePrice: Int!
+    clientPrice: Int!
+    earning: Int!
+    productId: Int!
+    quantity: Int!
+    shippingCost: Int!
+    subTotal: Int!
+}
+
+input ClientInput {
+    address: AddressInput!
+    cedula: String
+    cellphone: String
+    email: String
+    firstName: String!
+    lastName: String!
+}
+
+input OnboardingGoalInput {
+    goal: Int!
+}
+
+input OnboardingMotivationInput {
+    motivation: Motivation!
+}
+
+input OnboardingPersonalInput {
+    birthday: Date!
+    experience: Experience!
+    occupation: Occupation!
+}
+
+input ProductImageInput {
+    imageBase64: String!
+    name: String!
+    productId: Int!
+    sortOrder: Int!
+}
+
+input ProductInput {
+    basePrice: Int!
+    brandId: Int!
+    categoryId: Int!
+    description: String!
+    guarantee: String
+    inventory: Int!
+    productName: String!
+    sku: String!
+    techReport: String
+}
+
+input ProductInventory {
+    id: Int!
+    inventory: Int!
+}
+
+input ProductReviewImageInput {
+    url: String!
+}
+
+input ProductReviewInput {
+    images: [ProductReviewImageInput]
+    productId: Int!
+    rating: Int!
+    text: String
+}
+
+input SignUpInput {
+    cellphone: String!
+    email: String!
+    firstName: String!
+    lastName: String!
+    password: String!
+    pushToken: String
+    referralCode: String
+}
+
+input VendorAccountingInput {
+    accountingsMail: String
+    commercialsMail: String
+    documentId: String
+    fiscalCity: String
+    personType: PersonType
+    retentionAgent: Boolean
+    taxRegime: TaxRegime
+}
+
+input VendorBasicInput {
+    businessName: String
+    cellphone: String
+    email: String
+    firstName: String
+    lastName: String
+    name: String!
+    taxable: Boolean!
+    warehouseAddress: String
+    warehouseCityId: Int
+    warehouseStateId: Int
+    website: String
+}
+
+input VendorDocumentInput {
+    documentBase64: String!
+    documentType: VendorDocumentType!
+}
+
+
+scalar DateTime
+
+scalar Date
