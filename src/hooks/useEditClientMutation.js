@@ -1,5 +1,5 @@
 import { gql, useMutation } from "@apollo/client";
-const loginQL = gql`
+const editClientQL = gql`
   mutation updateClient{
     updateClient(id: 10037109, input: {cellphone:"3207445211", cedula: "1042440346",  firstName:"dario", lastName:"suarez", address:{streetAddress:"calle 59A", city:"Soledad", country:"Colombia", stateShortCode:"ATL"}}){
       ... on Client{
@@ -18,6 +18,6 @@ const loginQL = gql`
 `;
 
 export default () => {
-  let editClientGQL = useMutation(loginQL)[0];
-  return doLogin;
+  let [editClientGQL] = useMutation(editClientQL);
+  return editClientGQL;
 };

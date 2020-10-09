@@ -45,9 +45,6 @@ export const getAllClients = gql`
 export default (status) => {
     return useQuery(getAllClients, {
         fetchPolicy: "network-only",
-        /* headers: {
-           Authorization: `Token ${localStorage.getItem('token')}`
-         },*/
         variables: {
             status: status,
         },

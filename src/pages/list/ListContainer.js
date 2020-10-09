@@ -59,7 +59,7 @@ export const ListContainer = () => {
             </div>
           </Form.Row>
         </Form>
-        <Modal show={show} onHide={handleClose}>
+        <Modal show={show} onHide={handleClose} size="lg">
           <Modal.Header closeButton>
             <Modal.Title>Add Client</Modal.Title>
           </Modal.Header>
