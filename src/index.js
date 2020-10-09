@@ -20,7 +20,7 @@ const authMiddleware = new ApolloLink((operation, forward) => {
   // add the authorization to the headers
   operation.setContext({
     headers: {
-      authorization: `Token ${localStorage.getItem("token")}` || null,
+      Authorization: localStorage.getItem("token") ? `Token ${localStorage.getItem("token")}` : null,
     },
   });
 
@@ -37,7 +37,7 @@ const authMiddleware = new ApolloLink((operation, forward) => {
 const client = new ApolloClient({
   cache: new InMemoryCache(),
   link: concat(authMiddleware, httpLink),
-  queryDeduplication: false,
+  queryDeduplication: true,
 });
 
 client.disableNetworkFetches = false;

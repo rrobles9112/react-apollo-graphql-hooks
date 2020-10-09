@@ -15,22 +15,13 @@ export const ListContainer = () => {
   const handleSubmit = () => {
     // setShow(false);
     childRef.current.submit();
+    setShow(false);
   };
   const handleShow = () => setShow(true);
-  const petStatus = [
-    { key: 1, id: null, name: "All" },
-    { key: 2, id: "AVAILABLE", name: "Available" },
-    { key: 3, id: "CHECKEDOUT", name: "Checked Out" },
-  ];
-  const [selectedStatus, setSelectedStatus] = useState(() => null);
 
-  const { loading, error, data, refetch } = useClientQuery(
-    selectedStatus ? selectedStatus.id : null
-  );
+  const { loading, error, data, refetch } = useClientQuery();
 
-  const onSelectStatus = (status) => {
-    setSelectedStatus(status);
-  };
+
 
   const onRefetch = () => {
     refetch();
@@ -49,11 +40,7 @@ export const ListContainer = () => {
         </Row>
         <Form>
           <Form.Row>
-            {/*<SelectStatus
-              petStatus={petStatus}
-              onSelect={onSelectStatus}
-              defaultValue={selectedStatus}
-            />*/}
+
             <div className="ml-auto">
               <Logout />
             </div>

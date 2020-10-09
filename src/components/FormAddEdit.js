@@ -31,11 +31,11 @@ export const FormAddEdit = forwardRef((props, ref) => {
                     }
                 },
             },
-            { refetchQueries: [`getClients`] }
+            { refetchQueries: [`getClients`,`getAllClients`] }
         )
             .then((data) => {
                 console.log('addclient', data)
-               refetch();
+               // refetch();
 
             })
             .catch((e) => console.log('error=',e));
@@ -45,6 +45,7 @@ export const FormAddEdit = forwardRef((props, ref) => {
     const submitForm = (data) => {
         console.log(data);
         addClient(data);
+
     };
 
     // The component instance will be extended

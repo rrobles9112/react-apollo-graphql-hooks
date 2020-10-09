@@ -44,9 +44,6 @@ export const getAllClients = gql`
 
 export default (status) => {
     return useQuery(getAllClients, {
-        fetchPolicy: "network-only",
-        variables: {
-            status: status,
-        },
+        fetchPolicy: "network-only"
     });
 };
